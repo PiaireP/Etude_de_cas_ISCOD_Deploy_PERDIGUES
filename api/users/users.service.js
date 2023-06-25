@@ -6,7 +6,8 @@ class UserService {
     return User.find({}, "-password");
   }
   get(id) {
-    return User.findById(id, "-password");
+    const user = User.findById(id, "-password")
+    return user;
   }
   create(data) {
     const user = new User(data);
@@ -27,6 +28,7 @@ class UserService {
     if (!bool) {
       return false;
     }
+    console.log(typeof(user._id));
     return user._id;
   }
 }

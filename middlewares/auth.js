@@ -1,8 +1,10 @@
 const UnauthorizedError = require("../errors/unauthorized");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const express = require("express");
+const router = express.Router();
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   try {
     const token = req.headers["x-access-token"];
     if (!token) {
@@ -10,7 +12,8 @@ module.exports = (req, res, next) => {
     }
     const decoded = jwt.verify(token, config.secretJwtToken);
     req.user = decoded;
-    next();
+    console.log(req.user.tokenData._id);
+    next(); 
   } catch (message) {
     next(new UnauthorizedError(message));
   }

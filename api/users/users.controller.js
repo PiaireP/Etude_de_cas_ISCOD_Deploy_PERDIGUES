@@ -3,6 +3,7 @@ const UnauthorizedError = require("../../errors/unauthorized");
 const jwt = require("jsonwebtoken");
 const config = require("../../config");
 const usersService = require("./users.service");
+const articleService = require("../articles/articles.service")
 
 class UsersController {
   async getAll(req, res, next) {
@@ -13,6 +14,16 @@ class UsersController {
       next(err);
     }
   }
+  async getUserArticles(req, res, next) {
+    const { userId } = req.params;
+
+  try {
+    const articles = await articleService.getUserArticles(userId);
+    res.json(articles);
+  } catch (error) {
+    next(error);
+  }
+  } 
   async getById(req, res, next) {
     try {
       const id = req.params.id;
@@ -63,7 +74,8 @@ class UsersController {
       if (!userId) {
         throw new UnauthorizedError();
       }
-      const token = jwt.sign({ userId }, config.secretJwtToken, {
+      const tokenData = await usersService.get(userId)
+      const token = jwt.sign( { tokenData } , config.secretJwtToken, {
         expiresIn: "3d",
       });
       res.json({
