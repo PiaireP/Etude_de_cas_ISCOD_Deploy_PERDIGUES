@@ -25,7 +25,7 @@ describe("tester API users", () => {
   };
 
   beforeEach(() => {
-    token = jwt.sign({ userId: USER_ID }, config.secretJwtToken);
+    token = jwt.sign({ tokenData: MOCK_DATA }, config.secretJwtToken);
     // mongoose.Query.prototype.find = jest.fn().mockResolvedValue(MOCK_DATA);
     mockingoose(User).toReturn(MOCK_DATA, "find");
     mockingoose(User).toReturn(MOCK_DATA_CREATED, "save");

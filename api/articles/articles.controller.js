@@ -34,13 +34,14 @@ class ArtcileController {
       res.status(201).json(article);
     } catch (err) {
       next(err);
+      // throw err
     }
   }
   async update(req, res, next) {
     const userRole = req.user.tokenData.role;
 
     try {
-      if (userRole !== 'admin') {
+      if (userRole != 'admin') {
         throw new UnauthorizedError(); 
       }
       const articleId = req.params.articleId;
@@ -53,7 +54,6 @@ class ArtcileController {
   }
   async delete(req, res, next) {
     const userRole = req.user.tokenData.role;
-    console.log(userRole);
     try {
 
       if (userRole !== 'admin') {
@@ -61,7 +61,7 @@ class ArtcileController {
       }
       const articleId = req.params.articleId;
       await articlesService.delete(articleId);
-      // req.io.emit("articlesService:delete", { articleId });
+      req.io.emit("articlesService:delete", { articleId });
       res.status(204).send();
     } catch (err) {
       next(err);

@@ -12,7 +12,6 @@ module.exports = async (req, res, next) => {
     }
     const decoded = jwt.verify(token, config.secretJwtToken);
     req.user = decoded;
-    console.log(req.user.tokenData._id);
     next(); 
   } catch (message) {
     next(new UnauthorizedError(message));

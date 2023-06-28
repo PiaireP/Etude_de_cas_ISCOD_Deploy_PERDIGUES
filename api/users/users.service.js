@@ -28,7 +28,6 @@ class UserService {
     if (!bool) {
       return false;
     }
-    console.log(typeof(user._id));
     return user._id;
   }
 }

@@ -11,7 +11,6 @@ class ArticleService {
   create(data, userId) {
     data.user = userId;
     const article = new Article(data);
-    console.log(article);
     return article.save();
   }
   update(id, data) {

@@ -3,6 +3,8 @@ const articleController = require("./articles.controller");
 const router = express.Router();
 const authMiddleware = require("../../middlewares/auth");
 
+
+
 // router.get("/", usersController.getAll);
 // router.get("/:id", usersController.getById);
 // router.post("/", usersController.create);
@@ -10,7 +12,7 @@ const authMiddleware = require("../../middlewares/auth");
 // router.delete("/:id", usersController.delete);
 
 // Création d'un article
-router.post("/", authMiddleware, articleController.create);
+router.post("/", articleController.create);
 
 // Mise à jour d'un article
 router.put("/:articleId", articleController.update);
