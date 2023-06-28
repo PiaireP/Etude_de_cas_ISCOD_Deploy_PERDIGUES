@@ -1,5 +1,4 @@
 const Article = require("./articles.model");
-// const bcrypt = require("bcrypt");
 
 class ArticleService {
   getAll() {
@@ -20,7 +19,6 @@ class ArticleService {
     return Article.deleteOne({ _id: id });
   }
   async getUserArticles(userId) {
-    // const articles = await Article.find({ user: userId }).select("-password");
     const articles = await Article.find({ user: userId })
     .select("-user.password")
     .populate("user", "-password");

@@ -1,7 +1,5 @@
 const NotFoundError = require("../../errors/not-found");
 const UnauthorizedError = require("../../errors/unauthorized");
-const jwt = require("jsonwebtoken");
-const config = require("../../config");
 const articlesService = require("./articles.service");
 
 class ArtcileController {
@@ -27,19 +25,15 @@ class ArtcileController {
   }
   async create(req, res, next) {
     try {
-      // const { title, content } = req.body;
       const userId = req.user.tokenData;
       const article = await articlesService.create(req.body, userId);
-      // req.io.emit("article:create", article);
       res.status(201).json(article);
     } catch (err) {
       next(err);
-      // throw err
     }
   }
   async update(req, res, next) {
     const userRole = req.user.tokenData.role;
-
     try {
       if (userRole != 'admin') {
         throw new UnauthorizedError(); 
@@ -55,13 +49,11 @@ class ArtcileController {
   async delete(req, res, next) {
     const userRole = req.user.tokenData.role;
     try {
-
       if (userRole !== 'admin') {
         throw new UnauthorizedError(); 
       }
       const articleId = req.params.articleId;
       await articlesService.delete(articleId);
-      req.io.emit("articlesService:delete", { articleId });
       res.status(204).send();
     } catch (err) {
       next(err);
